@@ -1,0 +1,15 @@
+npx create-expo-app mblapp
+npx expo start
+================================
+
+r - reload 
+m - enable options
+================================
+
+
+
+
+================================
+install pnpm package 
+pnpm expo prebuild 
+pnpm android (before connect mbl usb dubugging )
