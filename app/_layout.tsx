@@ -24,8 +24,15 @@ export default function RootLayout() {
   );
 }
 
+import React, { useEffect } from 'react';
+import { registerForPushNotificationsAsync } from '@/utils/NotificationService';
+
 function RootLayoutNav() {
   const { theme } = useTheme();
+
+  useEffect(() => {
+    registerForPushNotificationsAsync();
+  }, []);
 
   return (
     <AuthProvider>

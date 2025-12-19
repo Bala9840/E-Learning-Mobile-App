@@ -1,4 +1,6 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React from 'react';
+// @ts-ignore
+const { useState, useEffect, useRef } = React;
 import { View, Text, StyleSheet, TouchableOpacity, FlatList, ScrollView, Modal, SafeAreaView, Alert, Animated, LayoutAnimation, Platform, UIManager } from 'react-native';
 import { useRouter } from 'expo-router';
 import { Ionicons } from '@expo/vector-icons';
@@ -98,7 +100,7 @@ export default function QuizScreen() {
         if (selectedTopic) {
             const correctIndex = selectedTopic.questions[currentQuestionIndex].correctIndex;
             if (optionIndex === correctIndex) {
-                setScore(prev => prev + 1);
+                setScore((prev: number) => prev + 1);
             }
         }
     };
@@ -107,7 +109,7 @@ export default function QuizScreen() {
         if (selectedTopic && currentQuestionIndex < selectedTopic.questions.length - 1) {
             LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut);
             setIsAnswered(false);
-            setCurrentQuestionIndex(prev => prev + 1);
+            setCurrentQuestionIndex((prev: number) => prev + 1);
         } else {
             handleSubmit();
         }
@@ -290,7 +292,7 @@ export default function QuizScreen() {
 
                 {/* Options */}
                 <ScrollView contentContainerStyle={{ paddingVertical: 10 }}>
-                    {question.options.map((opt, idx) => {
+                    {question.options.map((opt: string, idx: number) => {
                         const isSelected = answers[currentQuestionIndex] === idx;
                         const isCorrect = idx === question.correctIndex;
                         const showValid = isAnswered; // Only show validation colors after answering
@@ -474,7 +476,7 @@ export default function QuizScreen() {
                     <>
                         {/* Header for Tech Domains */}
                         <View style={{ padding: 20, paddingTop: 10 }}>
-                            <Text style={{ color: themeColors.subText, fontSize: 14, fontStyle: 'italic', marginBottom: 5 }}>Welcome back,</Text>
+                            <Text style={{ color: themeColors.subText, fontSize: 14, fontStyle: 'italic', marginBottom: 5 }}></Text>
                             <Text style={{ color: themeColors.text, fontSize: 28, fontWeight: 'bold' }}>Tech Mastery</Text>
                         </View>
 

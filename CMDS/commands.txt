@@ -13,7 +13,7 @@ push notification
 2.create project
 3.add app
 4.select platform android
-5.give android package Name from app.json (in fronent root)
+5.give android package Name from app.json (in fronent root folder)
 6.enter app name
 7.download google-services.json
 8.paste google-services.json in fronent(root folder)
@@ -23,4 +23,8 @@ push notification
 install pnpm package 
 pnpm expo prebuild 
 pnpm android (before connect mbl usb dubugging )
+================================
+
+
+gemini-2.5-flash - used in Ai chatbot for free
 ================================

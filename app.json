@@ -44,7 +44,8 @@
         "expo-notifications",
         {
           "icon": "./assets/images/icon.png",
-          "color": "#ffffff"
+          "color": "#ffffff",
+          "defaultChannel": "important_alerts"
         }
       ]
     ],

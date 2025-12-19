@@ -17,11 +17,13 @@ export async function registerForPushNotificationsAsync() {
     let token;
 
     if (Platform.OS === 'android') {
-        await Notifications.setNotificationChannelAsync('default', {
-            name: 'default',
+        await Notifications.setNotificationChannelAsync('important_alerts', {
+            name: 'Important Reminders',
             importance: Notifications.AndroidImportance.MAX,
             vibrationPattern: [0, 250, 250, 250],
             lightColor: '#FF231F7C',
+            lockscreenVisibility: Notifications.AndroidNotificationVisibility.PUBLIC,
+            bypassDnd: true,
         });
     }
 
@@ -59,6 +61,10 @@ export async function scheduleNotification(title: string, body: string, triggerD
                 title: title,
                 body: body,
                 sound: true,
+                priority: Notifications.AndroidNotificationPriority.MAX,
+                data: { data: 'goes here' },
+                // @ts-ignore
+                channelId: 'important_alerts',
             },
             trigger: {
                 type: Notifications.SchedulableTriggerInputTypes.DATE,

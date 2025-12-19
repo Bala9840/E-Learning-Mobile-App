@@ -4,7 +4,7 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 import { Ionicons } from '@expo/vector-icons';
 import { useAuth } from '@/context/AuthContext';
 import { useRouter } from 'expo-router';
-import DateTimePicker from '@react-native-community/datetimepicker';
+import DateTimePicker, { DateTimePickerAndroid } from '@react-native-community/datetimepicker';
 import { registerForPushNotificationsAsync, scheduleNotification } from '@/utils/NotificationService';
 
 const INITIAL_TASKS = [
@@ -35,6 +35,10 @@ export default function NotesScreen() {
 
     const toggleTask = (id: string) => {
         setTasks(tasks.map(t => t.id === id ? { ...t, completed: !t.completed } : t));
+    };
+
+    const deleteTask = (id: string) => {
+        setTasks(tasks.filter(t => t.id !== id));
     };
 
     const handleAddTask = () => {
@@ -115,9 +119,12 @@ export default function NotesScreen() {
                     data={filteredTasks}
                     keyExtractor={item => item.id}
                     renderItem={({ item }) => (
-                        <TouchableOpacity onPress={() => toggleTask(item.id)}>
-                            {isDark ? (
-                                <BlurView intensity={20} tint="dark" style={styles.taskCard}>
+                        isDark ? (
+                            <BlurView intensity={20} tint="dark" style={styles.taskCard}>
+                                <TouchableOpacity
+                                    style={{ flex: 1, flexDirection: 'row', alignItems: 'center' }}
+                                    onPress={() => toggleTask(item.id)}
+                                >
                                     <View style={styles.taskIcon}>
                                         <Ionicons
                                             name={item.completed ? "checkbox" : "square-outline"}
@@ -129,9 +136,17 @@ export default function NotesScreen() {
                                         <Text style={[styles.taskTitle, { color: themeColors.text }, item.completed && styles.completedText]}>{item.title}</Text>
                                         <Text style={styles.taskType}>{item.type}</Text>
                                     </View>
-                                </BlurView>
-                            ) : (
-                                <View style={[styles.taskCard, { backgroundColor: '#fff', elevation: 2 }]}>
+                                </TouchableOpacity>
+                                <TouchableOpacity onPress={() => deleteTask(item.id)} style={{ padding: 10 }}>
+                                    <Ionicons name="trash-outline" size={22} color="#FF5252" />
+                                </TouchableOpacity>
+                            </BlurView>
+                        ) : (
+                            <View style={[styles.taskCard, { backgroundColor: '#fff', elevation: 2 }]}>
+                                <TouchableOpacity
+                                    style={{ flex: 1, flexDirection: 'row', alignItems: 'center' }}
+                                    onPress={() => toggleTask(item.id)}
+                                >
                                     <View style={styles.taskIcon}>
                                         <Ionicons
                                             name={item.completed ? "checkbox" : "square-outline"}
@@ -143,9 +158,12 @@ export default function NotesScreen() {
                                         <Text style={[styles.taskTitle, { color: '#333' }, item.completed && { textDecorationLine: 'line-through', color: '#aaa' }]}>{item.title}</Text>
                                         <Text style={[styles.taskType, { color: '#666' }]}>{item.type}</Text>
                                     </View>
-                                </View>
-                            )}
-                        </TouchableOpacity>
+                                </TouchableOpacity>
+                                <TouchableOpacity onPress={() => deleteTask(item.id)} style={{ padding: 10 }}>
+                                    <Ionicons name="trash-outline" size={22} color="#FF5252" />
+                                </TouchableOpacity>
+                            </View>
+                        )
                     )}
                     contentContainerStyle={{ padding: 20, paddingBottom: 100 }}
                 />
@@ -184,7 +202,34 @@ export default function NotesScreen() {
 
                                 <TouchableOpacity
                                     style={{ flexDirection: 'row', alignItems: 'center', marginBottom: 20, padding: 10, backgroundColor: 'rgba(255,255,255,0.1)', borderRadius: 10 }}
-                                    onPress={() => setShowPicker(true)}
+                                    onPress={() => {
+                                        if (Platform.OS === 'android') {
+                                            DateTimePickerAndroid.open({
+                                                value: reminderDate || new Date(),
+                                                onChange: (event, selectedDate) => {
+                                                    if (event.type === 'set' && selectedDate) {
+                                                        // Once date is picked, show time picker
+                                                        DateTimePickerAndroid.open({
+                                                            value: selectedDate,
+                                                            onChange: (event2, selectedTime) => {
+                                                                if (event2.type === 'set' && selectedTime) {
+                                                                    // Combine date from selectedDate and time from selectedTime
+                                                                    const combined = new Date(selectedDate);
+                                                                    combined.setHours(selectedTime.getHours());
+                                                                    combined.setMinutes(selectedTime.getMinutes());
+                                                                    setReminderDate(combined);
+                                                                }
+                                                            },
+                                                            mode: 'time',
+                                                        });
+                                                    }
+                                                },
+                                                mode: 'date',
+                                            });
+                                        } else {
+                                            setShowPicker(true);
+                                        }
+                                    }}
                                 >
                                     <Ionicons name="alarm-outline" size={24} color={isDark ? "#fff" : "#000"} style={{ marginRight: 10 }} />
                                     <Text style={{ color: isDark ? "#fff" : "#000" }}>
@@ -192,7 +237,7 @@ export default function NotesScreen() {
                                     </Text>
                                 </TouchableOpacity>
 
-                                {showPicker && (
+                                {showPicker && Platform.OS === 'ios' && (
                                     <DateTimePicker
                                         value={reminderDate || new Date()}
                                         mode="datetime"
