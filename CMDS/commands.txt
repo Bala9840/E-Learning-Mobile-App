@@ -2,14 +2,25 @@ npx create-expo-app mblapp
 npx expo start
 ================================
 
+
 r - reload 
 m - enable options
 ================================
 
 
-
-
+push notification
+1.go to firebase console
+2.create project
+3.add app
+4.select platform android
+5.give android package Name from app.json (in fronent root)
+6.enter app name
+7.download google-services.json
+8.paste google-services.json in fronent(root folder)
 ================================
+
+
 install pnpm package 
 pnpm expo prebuild 
 pnpm android (before connect mbl usb dubugging )
+================================
