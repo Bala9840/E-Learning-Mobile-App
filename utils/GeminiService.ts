@@ -1,10 +1,10 @@
-export const GEMINI_API_KEY = 'AIzaSyC9ZUZhe_U6z5fKqplhYW7upzc_0oFapJY';
+export const GEMINI_API_KEY = 'AIzaSyB7LoHWyfevhQalfe-nlrZgm_xPoSwL_KY';
 
 export async function sendMessageToGemini(message: string, apiKey: string) {
     if (!apiKey) apiKey = GEMINI_API_KEY;
     if (!apiKey) throw new Error('API Key is missing');
 
-    const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=${apiKey}`;
+    const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${apiKey}`;
 
     const MAX_RETRIES = 3;
     let attempt = 0;

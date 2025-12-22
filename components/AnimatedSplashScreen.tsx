@@ -78,7 +78,7 @@ export function AnimatedSplashScreen({ children }: AnimatedSplashScreenProps) {
                         },
                     ]}
                 >
-                    <Animated.Image
+                    {/* <Animated.Image
                         source={require('@/assets/images/splash-icon.png')}
                         style={{
                             width: 200, // Match app.json splash imageWidth
@@ -87,7 +87,7 @@ export function AnimatedSplashScreen({ children }: AnimatedSplashScreenProps) {
                             transform: [{ scale: scaleAnim }],
                         }}
                         fadeDuration={0}
-                    />
+                    /> */}
                 </Animated.View>
             )}
         </View>

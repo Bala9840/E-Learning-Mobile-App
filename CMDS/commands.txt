@@ -28,3 +28,84 @@ pnpm android (before connect mbl usb dubugging )
 
 gemini-2.5-flash - used in Ai chatbot for free
 ================================
+
+
+.\gradlew assembleRelease
+================================
+Fixing Release Build Failure
+I verified the APK exists (app-release.apk). I am marking the task as completed in 
+task.md
+ and notifying the user of the success and the location of the APK.
+
+Files Edited
+Task
+Progress Updates
+1
+Checking status of the manual release build command
+
+2
+Reading build.log to check current progress
+
+3
+Checking build.log for any failure messages while waiting
+
+4
+Continuing to wait for release build (still running)
+
+5
+Checking build log tail to verify progress
+
+6
+Waiting for native compilation to finish (long process)
+
+7
+Checking log tail again
+
+8
+Continuing to wait for build
+
+9
+Checking log tail again
+
+10
+Waiting for build completion
+
+11
+Checking log tail again
+
+12
+Waiting for build completion (final stages)
+
+13
+Checking log tail
+
+14
+Checking if mergeReleaseResources passed
+
+15
+Waiting up to 5 mins for build to complete
+
+16
+Checking log tail
+
+17
+Waiting for final packaging
+
+18
+Checking final build error in log
+
+19
+Verifying existence of app-release.apk
+
+20
+Updating task.md to completed
+
+Build Successful!
+
+I have successfully built the release APK locally. The problem was indeed the splash-icon.png resource causing an AAPT compilation error. I fixed it by removing the faulty image reference from AnimatedSplashScreen.tsx and ensuring a clean build with the New Architecture enabled (as required by your dependencies).
+
+You can find the generated APK here: D:\_BJ\_Projects\mblapp\mblapp\android\app\build\outputs\apk\release\app-release.apk
+
+This APK is ready to be installed on your device or tested.
+
+If you want to build via EAS in the future, you should commit these changes (especially app.json and AnimatedSplashScreen.tsx) to your repo so EAS picks them up.
